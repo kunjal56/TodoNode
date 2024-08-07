@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crud</title>
+
+    <!-- Bootstrap cdn -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+    <style>
+
+        .main {
+            width: 70%;
+        }
+
+        .inp {
+            width: 67.7%;
+        }
+
+        .task {
+            width: 90%;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container border shadow-lg p-3 mt-5 main" >
+        <div class="row">
+            <div class="col-lg-12">
+                <h5>Classroom Task</h5>
+            </div>
+            <div class="col-lg-12 ms-4">
+                <form action="/insertData" method="post">
+                    <label for="">Upcoming :</label>
+                    <br>
+                    <input type="text" name="id" id="" placeholder="day" 
+                        class="border rounded rounded-2 mt-2 p-2" required>
+                    
+                    <input type="text" name="title" id="" placeholder="Topic discription"
+                        class="border rounded rounded-2 mt-2 p-2 inp" required>
+                    <button type="submit" class="btn btn-primary p-2">Add Task</button>
+                </form>
+            </div>
+            
+            <div class="col-lg-12 bg-light p-3 mt-4 task rounded rounded-3">
+                <!-- <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">id</th>
+                            <th scope="col">Task</th>
+                        </tr>
+                    </thead> -->
+                    <tbody>
+                        <h6 class="mt-2 mb-4 fw-bolder">Added task_</h6>
+                        <% classTask.map((el, i)=> { %>
+                            <tr>
+                                <td>
+                                    <%= el.id %>
+                                </td>
+                                <br>
+                                <td>
+                                    <%= el.title %>
+                                </td>
+                                <br>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button class="btn btn-primary mt-2 edit-btn" data-id="<%= el.id %>" data-title="<%= el.title %>">Edit</button>
+                                    <!-- <button class="btn btn-primary mt-2"><a href="/editData?userid=<%= el.id%>" class="text-white text-decoration-none">edit</a></button> -->
+                                    <button class="btn btn-primary mt-2"><a href="/deleteData?userid=<%= el.id%>" class="text-white text-decoration-none">delete</a></button>
+                                </td>
+                                <hr>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    // Function to handle edit button click
+    function handleEditButtonClick(event) {
+        const button = event.target;
+        const taskId = button.getAttribute('data-id');
+        const taskTitle = button.getAttribute('data-title');
+
+        // Show prompt to get new task title
+        const newTitle = prompt("Edit Task Title:", taskTitle);
+
+        if (newTitle !== null && newTitle !== taskTitle) {
+            // Redirect to editData with new title
+            window.location.href = `/editData?userid=${taskId}&newTitle=${encodeURIComponent(newTitle)}`;
+        }
+    }
+
+    // Attach event listeners to all edit buttons
+    document.querySelectorAll('.edit-btn').forEach(button => {
+        button.addEventListener('click', handleEditButtonClick);
+    });
+</script>
+
+</html>
